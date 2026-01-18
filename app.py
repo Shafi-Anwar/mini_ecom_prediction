@@ -4,6 +4,9 @@ from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import joblib
+from fastapi.responses import FileResponse
+
+
 
 model = joblib.load("model.pkl")    
 ohe = joblib.load("ohe.pkl")          
@@ -37,6 +40,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+def home():
+    return FileResponse("index.html")
+
 
 class UserData(BaseModel):
     Age: int
